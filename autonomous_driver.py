@@ -8,12 +8,12 @@ import joblib
 v_speed = 4.5
 
 model_type = 1
-
+model_name = 'RF_3laps'
 
 def load_model(type):
     if type == 1:
         # Carga el modelo desde el archivo
-        model = joblib.load('models/random_forest_model.pkl')
+        model = joblib.load(f'models/{model_name}.pkl')
     else:
         model = None
     
