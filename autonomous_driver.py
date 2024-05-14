@@ -13,7 +13,7 @@ model_type = 1
 def load_model(type):
     if type == 1:
         # Carga el modelo desde el archivo
-        model = joblib.load('random_forest_model.pkl')
+        model = joblib.load('models/random_forest_model.pkl')
     else:
         model = None
     
@@ -21,11 +21,16 @@ def load_model(type):
     
 # Main loop
 while True:
+    image = HAL.getImage()
+    GUI.showImage(image)
     laser_data = HAL.getLaserData()
 
     # Remove the inf values from the laser data
-    laser_data = np.array(laser_data)
+    laser_data = np.array(laser_data.values)
     laser_data[laser_data == np.inf] = 20
+
+    # Create a 2D array from the laser data
+    laser_data = laser_data.reshape(1, -1)
 
     # Load the model
     model = load_model(model_type)
