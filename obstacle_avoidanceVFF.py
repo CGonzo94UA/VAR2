@@ -19,6 +19,11 @@ def check_target(currentTarget, posx, posy, targetx, targety):
 data = pd.DataFrame(columns=['lasers', 'v', 'w'])
 circuit = "simple"
 index = 0
+v_speed = 4.5
+k_obstacle = 0.6
+k_car = 0.2
+k_target = -0.2
+k_angle = -0.3
 
 while True:
     # Enter iterative code!
@@ -30,10 +35,6 @@ while True:
     targetid = currentTarget.getId()
     image = HAL.getImage()
     GUI.showImage(image)
-
-    k_obstacle = 0.6
-    k_car = 0.2
-    k_target = -0.2
 
     target_vector = [targetx - posx, targety - posy]
     rot_angle = (-1) * (HAL.getPose3d().yaw + math.pi/2)
@@ -72,10 +73,8 @@ while True:
     car_vector[0] = k_car * (target_vector[0] + obstacle_vector[0])
     car_vector[1] = k_car * (target_vector[1] + obstacle_vector[1])
 
-    v_speed = 4
     HAL.setV(v_speed)
     #Add PID to angle actual - where it should be headed times a constant
-    k_angle = -0.3
     w_speed = k_angle * (car_vector[0])
     HAL.setW(w_speed)
 
@@ -105,7 +104,8 @@ while True:
 
     if index % 1000 == 0:
         # Save the dataframe to a file
-        data.to_csv(f'data/{circuit}_data.csv')
+        print('Saved to file')
+        data.to_csv(f'data/{circuit}_data.tsv', sep='\t', index=False)
 
     # Save the image, the lidar data, the W value and the V value
     #filename = str(index)+"_.npy"
