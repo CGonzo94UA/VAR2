@@ -1,19 +1,25 @@
 from GUI import GUI
 from HAL import HAL
 import math
+import numpy as np
+import pandas as pd
 # Enter sequential code!
 
 def check_target(currentTarget, posx, posy, targetx, targety):
     if(abs(targetx - posx) <= 6 and abs(targety - posy) <= 6):
         currentTarget.setReached(True)
         currentTarget = GUI.map.getNextTarget()
-        print("Target Reached")
         if(currentTarget != None):
             return 1
         else:
             return 0
 
+# Create a dataframe to store the data
+# Create a dataframe to store the data
+data = pd.DataFrame(columns=['lasers', 'v', 'w'])
+circuit = "simple"
 index = 0
+
 while True:
     # Enter iterative code!
     currentTarget = GUI.map.getNextTarget()
@@ -22,7 +28,7 @@ while True:
     posx = HAL.getPose3d().x
     posy = HAL.getPose3d().y
     targetid = currentTarget.getId()
-    imagen = HAL.getImage()
+    image = HAL.getImage()
     GUI.showImage(image)
 
     k_obstacle = 0.6
@@ -60,12 +66,14 @@ while True:
         w_speed = 0
         HAL.setV(v_speed)
         HAL.setW(w_speed)
+        # Save the dataframe to a file
+        data.to_csv(f'data/{circuit}_data.csv')
         
     car_vector[0] = k_car * (target_vector[0] + obstacle_vector[0])
     car_vector[1] = k_car * (target_vector[1] + obstacle_vector[1])
 
-    v_speed = 5
-    HAL.setV(speed)
+    v_speed = 4
+    HAL.setV(v_speed)
     #Add PID to angle actual - where it should be headed times a constant
     k_angle = -0.3
     w_speed = k_angle * (car_vector[0])
@@ -91,10 +99,18 @@ while True:
     # Target
     GUI.showLocalTarget(target_marker)
 
+    # Save the data into the dataframe
+    new_row = pd.DataFrame({'lasers': [laser_data.values], 'v': [v_speed], 'w': [w_speed]})
+    data = pd.concat([data, new_row], ignore_index=True)
+
+    if index % 1000 == 0:
+        # Save the dataframe to a file
+        data.to_csv(f'data/{circuit}_data.csv')
+
     # Save the image, the lidar data, the W value and the V value
-    filename = str(index)+"_.npy"
-    np.save("data/imgs/"+filename, image) #save image
+    #filename = str(index)+"_.npy"
+    #np.save("data/imgs/"+filename, image) #save image
     # Concatenate the lidar data with the V and W values
-    lasers = np.concatenate((laser_data.values, np.array([v_speed, w_speed])))
-    np.save("data/lasers/"+filename, lasers) # save lasers
+    #lasers = np.concatenate((laser_data.values, np.array([v_speed, w_speed])))
+    #p.save("data/lasers/"+filename, lasers) # save lasers
     index += 1
