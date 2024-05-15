@@ -18,6 +18,9 @@ def load_model(type):
         model = None
     
     return model
+
+# Load the model
+model = load_model(model_type)
     
 # Main loop
 while True:
@@ -31,9 +34,6 @@ while True:
 
     # Create a 2D array from the laser data
     laser_data = laser_data.reshape(1, -1)
-
-    # Load the model
-    model = load_model(model_type)
 
     # Predict the output
     w_pred = model.predict(laser_data)
