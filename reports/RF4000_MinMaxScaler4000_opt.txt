@@ -1,0 +1,4 @@
+Model:  RF4000_MinMaxScaler4000_opt
+MAE = 0.0835
+MSE = 0.0430
+R2 = 0.9643
