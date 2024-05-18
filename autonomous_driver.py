@@ -4,6 +4,8 @@ import math
 import numpy as np
 import pandas as pd
 import joblib
+import tensorflow
+from tensorflow import keras
 
 v_speed = 4.5
 
@@ -13,7 +15,7 @@ scaler = f''
 shuffle = ''
 model_name = f'RF{num_samples}_{scaler}'
 
-scaler_type = 1
+scaler_type = 0
 
 def load_scaler(scaler_type):
     # Carga el modelo desde el archivo
@@ -29,7 +31,7 @@ def load_model(type):
         # Carga el modelo desde el archivo
         model = joblib.load(f'models/{model_name}.pkl')
     else:
-        model = None
+        model = keras.saving.load_model(f'models/{model_name}.h5')
     
     return model
 
@@ -49,7 +51,7 @@ while True:
 
     #laser_data = pd.DataFrame([laser_data_array.flatten()], columns=[f'laser_{i}' for i in range(len(laser_data_array))])
     # Create a 2D array from the laser data
-    laser_data = laser_data.reshape(1, -1)
+    laser_data = laser_data_array.reshape(1, -1)
 
     # Scale the data
     if scaler is not None:
