@@ -1,4 +1,0 @@
-Model:  RF4000_StandardScaler
-MAE = 0.0729
-MSE = 0.0374
-R2 = 0.9689
