@@ -1,0 +1,4 @@
+Model:  RF_MinMaxScaler_shuffled
+MAE = 0.0716
+MSE = 0.0347
+R2 = 0.9725

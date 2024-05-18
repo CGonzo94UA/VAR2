@@ -1,0 +1,4 @@
+Model:  RF__shuffled_opt
+MAE = 0.0822
+MSE = 0.0337
+R2 = 0.9733

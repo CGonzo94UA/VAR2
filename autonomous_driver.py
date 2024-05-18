@@ -8,7 +8,10 @@ import joblib
 v_speed = 4.5
 
 model_type = 1
-model_name = 'RF4000_StandardScaler'
+num_samples = '4000'
+scaler = f''
+shuffle = ''
+model_name = f'RF{num_samples}_{scaler}'
 
 scaler_type = 1
 
@@ -41,17 +44,16 @@ while True:
     laser_data_raw = HAL.getLaserData()
 
     laser_data_array = np.array(laser_data_raw.values)
-    
     # Remove the inf values from the laser data
     laser_data_array[laser_data_array == np.inf] = 20
 
-    laser_data = pd.DataFrame([laser_data_array.flatten()], columns=[f'laser_{i}' for i in range(len(laser_data_array))])
+    #laser_data = pd.DataFrame([laser_data_array.flatten()], columns=[f'laser_{i}' for i in range(len(laser_data_array))])
+    # Create a 2D array from the laser data
+    laser_data = laser_data.reshape(1, -1)
 
     # Scale the data
     if scaler is not None:
         laser_data = scaler.transform(laser_data)
-        # Eliminar los nombres de las columnas
-        laser_data.columns = [None] * laser_data.shape[1]
         
     # Predict the output
     w_pred = model.predict(laser_data)

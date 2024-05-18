@@ -1,0 +1,4 @@
+Model:  RF_StandardScaler_shuffled
+MAE = 0.0715
+MSE = 0.0357
+R2 = 0.9718
