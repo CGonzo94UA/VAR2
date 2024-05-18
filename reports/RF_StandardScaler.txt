@@ -1,0 +1,4 @@
+Model:  RF_StandardScaler
+MAE = 0.0693
+MSE = 0.0309
+R2 = 0.9754
