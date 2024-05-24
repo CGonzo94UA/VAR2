@@ -10,10 +10,10 @@ from tensorflow import keras
 v_speed = 4.5
 
 model_type = 1
-num_samples = '4000'
-scaler = f''
+num_samples = ''
+scalerName = f''
 shuffle = ''
-model_name = f'RF{num_samples}_{scaler}'
+model_name = f'RF{num_samples}_{scalerName}_{shuffle}'
 
 scaler_type = 0
 
@@ -37,6 +37,7 @@ def load_model(type):
 
 # Load the model
 model = load_model(model_type)
+# Load the scaler
 scaler = load_scaler(scaler_type)
     
 # Main loop
